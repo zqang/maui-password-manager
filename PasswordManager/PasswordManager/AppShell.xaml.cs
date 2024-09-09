@@ -9,8 +9,11 @@ public partial class AppShell : Shell
 	public AppShell(INavigationService navigationService)
 	{
 		_navigationService = navigationService;
-		InitializeComponent();
-	}
+
+        AppShell.InitializeRouting();
+        InitializeComponent();
+
+    }
 	
 	protected override async void OnHandlerChanged()
 	{
@@ -24,5 +27,9 @@ public partial class AppShell : Shell
 
 	private static void InitializeRouting()
 	{
+        Routing.RegisterRoute(nameof(AddPasswordPage), typeof(AddPasswordPage));
+		//Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
+		//Routing.RegisterRoute(nameof(PasswordsPage), typeof(PasswordsPage));
+		Routing.RegisterRoute(nameof(EditPasswordPage), typeof(EditPasswordPage));
 	}
 }

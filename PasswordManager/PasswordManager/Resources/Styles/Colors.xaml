@@ -4,6 +4,48 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     
+    
+    <!--Password Google -->
+    <Color x:Key="LightAddPasswordColor">#0b57c6</Color>
+    <Color x:Key="LightSearchBarColor">#e9edf6</Color>
+    <Color x:Key="LightPasswordIconColor">#e8ecf5</Color>
+    <Color x:Key="LightAppShellTabColor">#f0f3f8</Color>
+    <Color x:Key="LightAppShellTabActiveColor">#c3ecff</Color>
+    <Color x:Key="LightFontColor">#222222</Color>
+    <Color x:Key="LightForegroundColor">#222222</Color>
+    <Color x:Key="LightAccentColor">#E0E0E0</Color>
+    <Color x:Key="LightLabelColor">#5F6368</Color>
+    <Color x:Key="LightAddPasswordFrameColor">#dce3eb</Color>
+    <Color x:Key="LightAddPasswordPlaceholderColor">#5d6062</Color>
+
+    <Color x:Key="DarkForegroundColor">#FFFFFF</Color>
+    <Color x:Key="DarkFontColor">#E7E7E7</Color>
+    <Color x:Key="DarkAddPasswordColor">#afc5e0</Color>
+    <Color x:Key="DarkSearchBarColor">#292a2c</Color>
+    <Color x:Key="DarkPasswordIconColor">#292a2c</Color>
+    <Color x:Key="DarkAppShellTabColor">#1e1f21</Color>
+    <Color x:Key="DarkAppShellTabActiveColor">#004a77</Color>
+    <Color x:Key="DarkAccentColor">#383838</Color>
+    <Color x:Key="DarkLabelColor">#9AA0A6</Color>
+    <Color x:Key="DarkAddPasswordFrameColor">#343537</Color>
+    <Color x:Key="DarkAddPasswordPlaceholderColor">#b2b3b5</Color>
+
+
+
+    <!-- Light Theme -->
+    <Color x:Key="LightPrimaryColor">#222222</Color>
+    <Color x:Key="LightSecondaryTextColor">#606060</Color>
+
+    <Color x:Key="LightSearchBackgroundColor">#ECEFF1</Color>
+    <Color x:Key="LightButtonTextColor">#1A73E8</Color>
+
+    <!-- Dark Theme -->
+    <Color x:Key="DarkPrimaryColor">#121212</Color>
+    <Color x:Key="DarkTextColor">#FFFFFF</Color>
+    <Color x:Key="DarkSecondaryTextColor">#B0BEC5</Color>
+    
+    <Color x:Key="DarkSearchBackgroundColor">#1C1C1E</Color>
+    <Color x:Key="DarkButtonTextColor">#BB86FC</Color>
     <!--  COLORS  -->
     <Color x:Key="WhiteColor">#ffffff</Color>
     <Color x:Key="BlackColor">#000000</Color>
@@ -31,10 +73,7 @@
     <!--  Theme Colors  -->
     <Color x:Key="LightBackgroundColor">#FFFFFF</Color>
     <Color x:Key="DarkBackgroundColor">#222222</Color>
-    <Color x:Key="LightForegroundColor">#222222</Color>
-    <Color x:Key="DarkForegroundColor">#FFFFFF</Color>
-    <Color x:Key="LightFontColor">#222222</Color>
-    <Color x:Key="DarkFontColor">#E7E7E7</Color>
+
     <Color x:Key="LightSeparatorColor">#222222</Color>
     <Color x:Key="DarkSeparatorColor">#E7E7E7</Color>
     <Color x:Key="LightGrayColor">#eeeeee</Color>

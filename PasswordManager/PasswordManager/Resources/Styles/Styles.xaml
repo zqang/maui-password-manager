@@ -6,6 +6,7 @@
     xmlns:converters="clr-namespace:PasswordManager.Converters"
     xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
     xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
     </Style>
@@ -269,7 +270,7 @@
         <Setter Property="RefreshColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
     </Style>
 
-    <Style TargetType="SearchBar">
+    <!--<Style TargetType="SearchBar">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
         <Setter Property="PlaceholderColor" Value="{StaticResource Gray500}" />
         <Setter Property="CancelButtonColor" Value="{StaticResource Gray500}" />
@@ -291,7 +292,7 @@
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
-    </Style>
+    </Style>-->
 
     <Style TargetType="SearchHandler">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
@@ -427,29 +428,37 @@
     </Style>
     
     <x:String x:Key="AddIcon">&#xf067;</x:String>
-    <x:String x:Key="KeyIcon">f084</x:String>
-    <x:String x:Key="SettingIcon">f013</x:String>
-    
+    <x:String x:Key="KeyIcon">&#xf084;</x:String>
+    <x:String x:Key="SettingIcon">&#xf013;</x:String>
+    <x:String x:Key="FontAwesomeSolid">FontAwesome-Solid</x:String>
+
+    <FontImageSource
+        x:Key="AddPasswordIcon"
+        FontFamily="FontAwesome-Solid"
+        Glyph="{StaticResource AddIcon}"
+        Size="24"
+        Color="{AppThemeBinding Dark={StaticResource DarkAddPasswordColor}, Light={StaticResource LightAddPasswordColor}}"/>
+
     <FontImageSource
         x:Key="AddPasswordIconForTitleImageSource"
         FontFamily="FontAwesome-Solid"
         Glyph="{StaticResource AddIcon}"
         Size="24"
-        Color="{AppThemeBinding Dark={StaticResource DarkFontColor}, Light={StaticResource LightFontColor}}"/>
+        Color="{AppThemeBinding Dark={StaticResource LightFontColor}, Light={StaticResource DarkFontColor}}"/>
 
     <FontImageSource
         x:Key="PasswordIconForTab"
         FontFamily="FontAwesome-Solid"
         Glyph="{StaticResource KeyIcon}"
         Size="24"
-        Color="{AppThemeBinding Dark={StaticResource DarkFontColor}, Light={StaticResource LightFontColor}}"/>
+        Color="{AppThemeBinding Dark={StaticResource DarkAppShellTabActiveColor}, Light={StaticResource LightAppShellTabActiveColor}}"/>
 
     <FontImageSource
         x:Key="SettingIconForTab"
         FontFamily="FontAwesome-Solid"
         Glyph="{StaticResource SettingIcon}"
         Size="24"
-        Color="{AppThemeBinding Dark={StaticResource DarkFontColor}, Light={StaticResource LightFontColor}}"/>
+        Color="{AppThemeBinding Dark={StaticResource DarkAppShellTabActiveColor}, Light={StaticResource LightAppShellTabActiveColor}}"/>
 
 
     <!--  CONVERTERS  -->

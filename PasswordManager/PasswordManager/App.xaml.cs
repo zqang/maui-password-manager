@@ -29,20 +29,23 @@ public partial class App : Application
         MainPage = new AppShell(navigationService);
 
 
-        Application.Current.UserAppTheme = AppTheme.Light;
+        Application.Current.UserAppTheme = AppTheme.Dark;
     }
 
     private void InitApp()
     {
         if (VersionTracking.IsFirstLaunchEver)
         {
-            _settingsService.UseMocks = true;
+            
         }
+
+        _settingsService.UseMocks = false;
 
         if (!_settingsService.UseMocks)
         {
             _appEnvironmentService.UpdateDependencies(_settingsService.UseMocks);
         }
+        
     }
 
     protected override void OnSleep()

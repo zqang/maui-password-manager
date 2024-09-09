@@ -1,7 +1,10 @@
-﻿namespace PasswordManager.Models;
+﻿using SQLite;
+
+namespace PasswordManager.Models;
 
 public class Credential
 {
+    [PrimaryKey]
     public Guid id { get; set; }
     public string UserId { get; set; }
     

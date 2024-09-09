@@ -1,4 +1,5 @@
 ﻿using PasswordManager.Services.Settings;
+using PasswordManager.Views;
 
 namespace PasswordManager.Services;
 
@@ -12,7 +13,7 @@ public class MauiNavigationService : INavigationService
     }
 
     public Task InitializeAsync() =>
-        NavigateToAsync("//Main/Passwords");
+        NavigateToAsync("//PasswordsPage");
 
     public Task NavigateToAsync(string route, IDictionary<string, object> routeParameters = null)
     {

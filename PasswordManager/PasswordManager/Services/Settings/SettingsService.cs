@@ -20,7 +20,7 @@ public class SettingsService : ISettingsService
 
     public string CredentialEndpointBase
     {
-        get => Preferences.Get(IdCredentialBase, UrlCredentialDefault);
+        get => Preferences.Get(IdCredentialBase, string.Empty);
         set
         {
             Preferences.Set(IdCredentialBase, value);

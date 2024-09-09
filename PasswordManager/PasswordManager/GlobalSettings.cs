@@ -7,7 +7,7 @@
 public class GlobalSetting
 {
     public const string MockTag = "Mock";
-    public const string DefaultEndpoint = "http://localhost:44389/api"; // i.e.: "http://YOUR_IP" or "http://YOUR_DNS_NAME"
+    public const string DefaultEndpoint = ""; // Changed to empty string
 
     private string _baseGatewayCredentialEndpoint;
 
@@ -32,6 +32,6 @@ public class GlobalSetting
 
     private void UpdateGatewayCredentialEndpoint(string endpoint)
     {
-        GatewayCredentialEndpoint = endpoint;
+        GatewayCredentialEndpoint = string.IsNullOrEmpty(endpoint) ? null : endpoint;
     }
 }
