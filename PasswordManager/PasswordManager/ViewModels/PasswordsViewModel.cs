@@ -4,14 +4,20 @@ using PasswordManager.Models;
 using PasswordManager.Services.AppEnvironment;
 using PasswordManager.Services.Settings;
 using PasswordManager.Views;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows.Input;
 
 namespace PasswordManager.ViewModels;
 
-public partial class PasswordsViewModel : ViewModelBase
+public partial class PasswordsViewModel : ViewModelBase, INotifyPropertyChanged
 {
     private readonly IAppEnvironmentService _appEnvironmentService;
     private readonly ISettingsService _settingsService;
     private readonly ObservableCollectionEx<Credential> _credentials = new();
+    private string _searchText;
+    private ObservableCollection<Credential> _filteredCredentials;
 
     private bool _initialized;
     
@@ -34,6 +40,7 @@ public partial class PasswordsViewModel : ViewModelBase
     public override async Task InitializeAsync()
     {
         await RefreshCredentials();
+        FilteredCredentials = new ObservableCollection<Credential>(_credentials); // Initialize FilteredCredentials
     }
 
     [RelayCommand]
@@ -42,8 +49,13 @@ public partial class PasswordsViewModel : ViewModelBase
         await IsBusyFor(async () =>
         {
             var credentials = await _appEnvironmentService.CredentialsService.GetCredentialsAsync();
-            _credentials.ReloadData(credentials);
+            _credentials.Clear(); // Clear existing credentials
+            foreach (var credential in credentials)
+            {
+                _credentials.Add(credential); // Add new credentials
+            }
             BadgeCount = _credentials.Count;
+            FilteredCredentials = new ObservableCollection<Credential>(_credentials); // Update filtered list
         });
     }
     
@@ -64,5 +76,51 @@ public partial class PasswordsViewModel : ViewModelBase
             };
             await NavigationService.NavigateToAsync(nameof(EditPasswordPage), parameters);
         }
+    }
+
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (_searchText != value)
+            {
+                _searchText = value;
+                OnPropertyChanged(nameof(SearchText));
+                FilterCredentials();
+            }
+        }
+    }
+
+    public ObservableCollection<Credential> FilteredCredentials
+    {
+        get => _filteredCredentials;
+        private set
+        {
+            _filteredCredentials = value;
+            OnPropertyChanged(nameof(FilteredCredentials));
+        }
+    }
+
+    private void FilterCredentials()
+    {
+        if (string.IsNullOrWhiteSpace(SearchText))
+        {
+            FilteredCredentials = new ObservableCollection<Credential>(_credentials);
+        }
+        else
+        {
+            var filtered = _credentials
+                .Where(c => c.Domain.Contains(SearchText, StringComparison.OrdinalIgnoreCase)) // Adjust property as needed
+                .ToList();
+            FilteredCredentials = new ObservableCollection<Credential>(filtered);
+        }
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
