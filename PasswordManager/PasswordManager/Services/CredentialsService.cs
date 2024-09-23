@@ -24,7 +24,7 @@ public class CredentialsService : ICredentialsService
     {
         if (IsApiEnabled())
         {
-            var uri = UriHelper.CombineUri(GlobalSetting.Instance.GatewayCredentialEndpoint, $"{ApiUrlBase}");
+            var uri = UriHelper.CombineUri(GlobalSetting.Instance.GatewayCredentialEndpoint, "api", $"{ApiUrlBase}");
             IEnumerable<Credential> credentials = await _requestProvider.GetAsync<IEnumerable<Credential>>(uri).ConfigureAwait(false);
             await SyncLocalStorage(credentials);
             return credentials;
@@ -36,7 +36,7 @@ public class CredentialsService : ICredentialsService
     {
         if (IsApiEnabled())
         {
-            var uri = UriHelper.CombineUri(GlobalSetting.Instance.GatewayCredentialEndpoint, $"{ApiUrlBase}/{id}");
+            var uri = UriHelper.CombineUri(GlobalSetting.Instance.GatewayCredentialEndpoint,"api", $"{ApiUrlBase}/{id}");
             Credential credential = await _requestProvider.GetAsync<Credential>(uri).ConfigureAwait(false);
             await _localStorageService.SaveCredentialAsync(credential);
             return credential;
@@ -53,7 +53,7 @@ public class CredentialsService : ICredentialsService
 
         if (IsApiEnabled())
         {
-            var uri = UriHelper.CombineUri(GlobalSetting.Instance.GatewayCredentialEndpoint, $"{ApiUrlBase}");
+            var uri = UriHelper.CombineUri(GlobalSetting.Instance.GatewayCredentialEndpoint,"api", $"{ApiUrlBase}");
             await _requestProvider.PostAsync<Guid, Credential>(uri, credential).ConfigureAwait(false);
         }
         await _localStorageService.SaveCredentialAsync(credential);
@@ -65,7 +65,7 @@ public class CredentialsService : ICredentialsService
         credential.id = id;
         if (IsApiEnabled())
         {
-            var uri = UriHelper.CombineUri(GlobalSetting.Instance.GatewayCredentialEndpoint, $"{ApiUrlBase}/{id}");
+            var uri = UriHelper.CombineUri(GlobalSetting.Instance.GatewayCredentialEndpoint,"api", $"{ApiUrlBase}/{id}");
             await _requestProvider.PutAsync<Guid, Credential>(uri, credential).ConfigureAwait(false);
         }
         await _localStorageService.SaveCredentialAsync(credential);
@@ -76,7 +76,7 @@ public class CredentialsService : ICredentialsService
     {
         if (IsApiEnabled())
         {
-            var uri = UriHelper.CombineUri(GlobalSetting.Instance.GatewayCredentialEndpoint, $"{ApiUrlBase}/{id}");
+            var uri = UriHelper.CombineUri(GlobalSetting.Instance.GatewayCredentialEndpoint,"api", $"{ApiUrlBase}/{id}");
             await _requestProvider.DeleteAsync(uri).ConfigureAwait(false);
         }
         var credential = await _localStorageService.GetCredentialAsync(id);
@@ -90,7 +90,7 @@ public class CredentialsService : ICredentialsService
     {
         if (IsApiEnabled())
         {
-            var uri = UriHelper.CombineUri(GlobalSetting.Instance.GatewayCredentialEndpoint, $"{ApiUrlBase}");
+            var uri = UriHelper.CombineUri(GlobalSetting.Instance.GatewayCredentialEndpoint,"api", $"{ApiUrlBase}");
             await _requestProvider.DeleteAsync(uri).ConfigureAwait(false);
         }
         await _localStorageService.DeleteAllCredentialsAsync();
@@ -100,21 +100,26 @@ public class CredentialsService : ICredentialsService
     {
         return !string.IsNullOrEmpty(_settingsService.CredentialEndpointBase);
     }
-
+    
     private async Task SyncLocalStorage(IEnumerable<Credential> apiCredentials)
     {
         var localCredentials = await _localStorageService.GetCredentialsAsync();
-        var credentialsToDelete = localCredentials.Where(lc => !apiCredentials.Any(ac => ac.id == lc.id));
-        var credentialsToAddOrUpdate = apiCredentials.Where(ac => !localCredentials.Any(lc => lc.id == ac.id && lc.Password == ac.Password));
-
-        foreach (var credential in credentialsToDelete)
+    
+        foreach (var apiCredential in apiCredentials)
         {
-            await _localStorageService.DeleteCredentialAsync(credential);
-        }
+            var localCredential = localCredentials.FirstOrDefault(lc => lc.id == apiCredential.id);
 
-        foreach (var credential in credentialsToAddOrUpdate)
-        {
-            await _localStorageService.SaveCredentialAsync(credential);
+            if (localCredential == null)
+            {
+                // Create new credential if it doesn't exist
+                await _localStorageService.SaveCredentialAsync(apiCredential);
+            }
+            else if (localCredential.Password != apiCredential.Password)
+            {
+                // Update credential if the password is different
+                localCredential.Password = apiCredential.Password;
+                await _localStorageService.SaveCredentialAsync(localCredential);
+            }
         }
     }
 }

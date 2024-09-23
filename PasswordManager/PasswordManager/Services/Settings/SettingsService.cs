@@ -20,7 +20,12 @@ public class SettingsService : ISettingsService
 
     public string CredentialEndpointBase
     {
-        get => Preferences.Get(IdCredentialBase, string.Empty);
+        get
+        {
+            var value = Preferences.Get(IdCredentialBase, string.Empty);
+            GlobalSetting.Instance.BaseGatewayCredentialEndpoint = value;
+            return value;
+        }
         set
         {
             Preferences.Set(IdCredentialBase, value);

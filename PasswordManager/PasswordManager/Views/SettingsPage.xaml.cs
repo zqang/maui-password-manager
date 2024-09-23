@@ -15,7 +15,12 @@ public partial class SettingsPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+#if  WINDOWS
+        BiometricSwitch.IsEnabled = false;
+#else
         CheckBiometricAvailability();
+#endif
+        
     }
 
     private async void CheckBiometricAvailability()
